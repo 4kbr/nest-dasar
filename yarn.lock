@@ -982,6 +982,11 @@
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.15.tgz#596a1747233694d50f6ad8a7869fcb6f56cf5841"
   integrity sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==
 
+"@types/lru-cache@^4.1.3":
+  version "4.1.3"
+  resolved "https://registry.yarnpkg.com/@types/lru-cache/-/lru-cache-4.1.3.tgz#ec5eb6dd818b7a06336cfb7368723164b195f818"
+  integrity sha512-QjCOmf5kYwekcsfEKhcEHMK8/SvgnneuSDXFERBuC/DPca2KJIO/gpChTsVb35BoWLBpEAJWz1GFVEArSdtKtw==
+
 "@types/methods@^1.1.4":
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/@types/methods/-/methods-1.1.4.tgz#d3b7ac30ac47c91054ea951ce9eed07b1051e547"
@@ -996,6 +1001,13 @@
   version "1.3.5"
   resolved "https://registry.yarnpkg.com/@types/mime/-/mime-1.3.5.tgz#1ef302e01cf7d2b5a0fa526790c9123bf1d06690"
   integrity sha512-/pyBZWSLD2n0dcHE3hq8s8ZvcETHtEuF+3E7XVt0Ig2nvsVQXdghHVcEkIWjy9A0wKfTn97a/PSDYohKIlnP/w==
+
+"@types/mustache-express@^1.2.5":
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/@types/mustache-express/-/mustache-express-1.2.5.tgz#1723170c3fb14db516347355acb57aa3932703ce"
+  integrity sha512-F1flbb8KyEoVxjWPMzPlSb3pXQfaZG43ZdzWYOOAWDWE6jll9+QSszS2a1EvgFkfRkmMn2GnoWOyUeWYuwCJkg==
+  dependencies:
+    "@types/lru-cache" "^4.1.3"
 
 "@types/node@*", "@types/node@^20.3.1":
   version "20.11.26"
