@@ -38,7 +38,7 @@ export class UserController {
     @Query('first_name') firstName?: string,
     @Query('last_name') lastName?: string,
   ): Promise<string> {
-    return `GET ${firstName + ' ' + lastName}`;
+    return `Hello ${firstName + ' ' + lastName}`;
   }
 
   @Get('/sample-response')
@@ -77,7 +77,7 @@ export class UserController {
     @Query('first_name') firstName?: string,
     @Query('last_name') lastName?: string,
   ): string {
-    return `GET ${firstName + ' ' + lastName}`;
+    return `Hello ${firstName + ' ' + lastName}`;
   }
 
   @Get('/:id')
