@@ -1,5 +1,6 @@
 import { User } from '.prisma/client';
 import {
+  Body,
   Controller,
   Get,
   Header,
@@ -7,13 +8,21 @@ import {
   HttpException,
   HttpRedirectResponse,
   Inject,
+  Param,
+  ParseIntPipe,
   Post,
   Query,
   Redirect,
   Req,
   Res,
+  UsePipes,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
+import {
+  LoginUserRequest,
+  loginUserRequestValidation,
+} from 'src/model/login.model';
+import { ValidationPipe } from 'src/validation/validation.pipe';
 import { Connection } from '../connection/connection';
 import { MailService } from '../mail/mail.service';
 import { MemberService } from '../member/member.service';
@@ -30,6 +39,17 @@ export class UserController {
     private userRepository: UserRepository,
     private memberService: MemberService,
   ) {}
+
+  // @UseFilters(ValidationFilter)//karena sudah global jadi tak perlu ditambah (optional)
+  @UsePipes(new ValidationPipe(loginUserRequestValidation)) //kalau disini hati hati bukan hanya body yang divalidasi
+  @Post('/login')
+  login(
+    @Query(`name`) name: string, //ini juga kena validasi
+    // @Body(new ValidationPipe(loginUserRequestValidation)) //bisa disini
+    @Body() request: LoginUserRequest,
+  ) {
+    return `Hello ${request.username}`;
+  }
 
   @Get(`/create`)
   create(
@@ -127,6 +147,7 @@ export class UserController {
   }
 
   @Get('/hello')
+  @HttpCode(200)
   //@UseFilters(ValidationFilter) // akan pakai global filter
   sayHello(@Query('name') name?: string): string {
     return this.service.sayHello(name);
@@ -134,7 +155,9 @@ export class UserController {
   }
 
   @Get('/:id')
-  getById(@Req() request: Request): string {
-    return `GET ${request.params.id}`;
+  getById(@Param('id', ParseIntPipe) id: number): string {
+    // console.log(id * 10); tidak NaN
+
+    return `GET ${id}`;
   }
 }
