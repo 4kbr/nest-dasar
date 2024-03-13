@@ -1,16 +1,15 @@
 import { Module } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { Connection, createConnection } from './connection/connection';
 import { MailService, mailService } from './mail/mail.service';
 import { MemberService } from './member/member.service';
-import {
-  UserRepository,
-  createUserRepository,
-} from './user-repository/user-repository';
+import { UserRepository } from './user-repository/user-repository';
 import { UserController } from './user/user.controller';
 import { UserService } from './user/user.service';
-import { ConfigService } from '@nestjs/config';
+import { PrismaModule } from 'src/prisma/prisma.module';
 
 @Module({
+  imports: [PrismaModule],
   controllers: [UserController],
   providers: [
     UserService,
@@ -29,12 +28,15 @@ import { ConfigService } from '@nestjs/config';
       provide: 'EmailService',
       useExisting: MailService,
     },
-    {
-      provide: UserRepository,
-      useFactory: createUserRepository,
-      inject: [Connection],
-    },
+    UserRepository,
+    //#Factory
+    // {
+    //   provide: UserRepository,
+    //   useFactory: createUserRepository,
+    //   inject: [Connection],
+    // },
     MemberService,
   ],
+  exports: [UserService], //sharing modules
 })
 export class UserModule {}
