@@ -27,6 +27,7 @@ async function bootstrap() {
 
   // app.useGlobalPipes() //bisa buat global
   // app.useGlobalInterceptors() //bisa buat global
+  // app.useGlobalGuards(...) //
 
   const configService = app.get(ConfigService);
   const port = configService.get('PORT') || 3000;

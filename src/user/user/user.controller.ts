@@ -15,6 +15,7 @@ import {
   Redirect,
   Req,
   Res,
+  UseGuards,
   UseInterceptors,
   UsePipes,
 } from '@nestjs/common';
@@ -31,6 +32,7 @@ import { MemberService } from '../member/member.service';
 import { UserRepository } from '../user-repository/user-repository';
 import { UserService } from './user.service';
 import { Auth } from 'src/auth/auth.decorator';
+import { RoleGuard } from 'src/role/role.guard';
 
 @Controller('/api/users')
 export class UserController {
@@ -44,6 +46,7 @@ export class UserController {
   ) {}
 
   @Get(`/current`)
+  @UseGuards(new RoleGuard(['admin', 'operator'])) //penggunaan guard
   current(@Auth() user: User): Record<string, any> {
     return {
       data: `Hello ${user.first_name} ${user.last_name}`,
