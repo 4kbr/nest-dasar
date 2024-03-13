@@ -33,7 +33,9 @@ import { UserRepository } from '../user-repository/user-repository';
 import { UserService } from './user.service';
 import { Auth } from 'src/auth/auth.decorator';
 import { RoleGuard } from 'src/role/role.guard';
+import { Roles } from 'src/role/roles.decorator';
 
+@Roles(['admin', 'operator']) //bisa digunakan disini
 @Controller('/api/users')
 export class UserController {
   constructor(
@@ -46,7 +48,8 @@ export class UserController {
   ) {}
 
   @Get(`/current`)
-  @UseGuards(new RoleGuard(['admin', 'operator'])) //penggunaan guard
+  @UseGuards(RoleGuard) //penggunaan guard
+  // @Roles(['admin', 'operator']) //bisa digunakan disini
   current(@Auth() user: User): Record<string, any> {
     return {
       data: `Hello ${user.first_name} ${user.last_name}`,

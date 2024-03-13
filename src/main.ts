@@ -29,6 +29,8 @@ async function bootstrap() {
   // app.useGlobalInterceptors() //bisa buat global
   // app.useGlobalGuards(...) //
 
+  app.enableShutdownHooks(); //untuk triger saat ctrl+c / menonaktifkan
+
   const configService = app.get(ConfigService);
   const port = configService.get('PORT') || 3000;
 
