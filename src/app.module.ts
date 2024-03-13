@@ -1,13 +1,19 @@
-import { Module } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { WinstonModule } from 'nest-winston';
+import * as winston from 'winston';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserModule } from './user/user.module';
-import { ConfigModule } from '@nestjs/config';
-import { PrismaService } from './prisma/prisma/prisma.service';
+import { LogMiddleware } from './log/log.middleware';
 import { PrismaModule } from './prisma/prisma.module';
-import { WinstonModule } from 'nest-winston';
+import { PrismaService } from './prisma/prisma/prisma.service';
+import { UserModule } from './user/user.module';
 import { ValidationModule } from './validation/validation.module';
-import * as winston from 'winston';
 
 @Module({
   imports: [
@@ -26,4 +32,12 @@ import * as winston from 'winston';
   controllers: [AppController],
   providers: [AppService, PrismaService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    // consumer.apply(LogMiddleware).forRoutes(UserController); //bisa class controller, atau
+    consumer.apply(LogMiddleware).forRoutes({
+      path: `/api/*`,
+      method: RequestMethod.ALL,
+    });
+  }
+}
