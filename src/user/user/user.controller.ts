@@ -31,11 +31,11 @@ export class UserController {
   ) {}
 
   @Get(`/create`)
-  async create(
+  create(
     @Query('first_name') firstName: string,
     @Query('last_name') lastName: string,
   ): Promise<User> {
-    return await this.userRepository.save(firstName, lastName);
+    return this.userRepository.save(firstName, lastName);
   }
 
   @Get(`/connection`)
