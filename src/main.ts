@@ -25,6 +25,9 @@ async function bootstrap() {
   //set global filter
   app.useGlobalFilters(new ValidationFilter());
 
+  // app.useGlobalPipes() //bisa buat global
+  // app.useGlobalInterceptors() //bisa buat global
+
   const configService = app.get(ConfigService);
   const port = configService.get('PORT') || 3000;
 

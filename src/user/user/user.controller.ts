@@ -15,6 +15,7 @@ import {
   Redirect,
   Req,
   Res,
+  UseInterceptors,
   UsePipes,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
@@ -22,12 +23,14 @@ import {
   LoginUserRequest,
   loginUserRequestValidation,
 } from 'src/model/login.model';
+import { TimeInterceptor } from 'src/time/time.interceptor';
 import { ValidationPipe } from 'src/validation/validation.pipe';
 import { Connection } from '../connection/connection';
 import { MailService } from '../mail/mail.service';
 import { MemberService } from '../member/member.service';
 import { UserRepository } from '../user-repository/user-repository';
 import { UserService } from './user.service';
+import { Auth } from 'src/auth/auth.decorator';
 
 @Controller('/api/users')
 export class UserController {
@@ -40,15 +43,26 @@ export class UserController {
     private memberService: MemberService,
   ) {}
 
+  @Get(`/current`)
+  current(@Auth() user: User): Record<string, any> {
+    return {
+      data: `Hello ${user.first_name} ${user.last_name}`,
+    };
+  }
+
   // @UseFilters(ValidationFilter)//karena sudah global jadi tak perlu ditambah (optional)
   @UsePipes(new ValidationPipe(loginUserRequestValidation)) //kalau disini hati hati bukan hanya body yang divalidasi
   @Post('/login')
+  @Header(`Content-Type`, 'application/json')
+  @UseInterceptors(TimeInterceptor)
   login(
     @Query(`name`) name: string, //ini juga kena validasi
     // @Body(new ValidationPipe(loginUserRequestValidation)) //bisa disini
     @Body() request: LoginUserRequest,
   ) {
-    return `Hello ${request.username}`;
+    return {
+      data: `Hello ${request.username}`,
+    };
   }
 
   @Get(`/create`)
