@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { PrismaService } from './prisma/prisma/prisma.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { WinstonModule } from 'nest-winston';
+import { ValidationModule } from './validation/validation.module';
 import * as winston from 'winston';
 
 @Module({
@@ -20,6 +21,7 @@ import * as winston from 'winston';
     }),
     UserModule,
     PrismaModule,
+    ValidationModule.forRoot(true),
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],

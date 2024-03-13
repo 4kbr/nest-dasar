@@ -6,10 +6,9 @@ import { MemberService } from './member/member.service';
 import { UserRepository } from './user-repository/user-repository';
 import { UserController } from './user/user.controller';
 import { UserService } from './user/user.service';
-import { PrismaModule } from 'src/prisma/prisma.module';
 
 @Module({
-  imports: [PrismaModule],
+  // imports: [PrismaModule],
   controllers: [UserController],
   providers: [
     UserService,

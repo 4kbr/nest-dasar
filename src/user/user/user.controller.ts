@@ -71,11 +71,8 @@ export class UserController {
   }
 
   @Get('/hello-promise')
-  async sayHelloPromise(
-    @Query('first_name') firstName?: string,
-    @Query('last_name') lastName?: string,
-  ): Promise<string> {
-    return this.service.sayHello(firstName + ' ' + lastName);
+  async sayHelloPromise(@Query('name') name?: string): Promise<string> {
+    return this.service.sayHello(name);
     // return `Hello ${firstName + ' ' + lastName}`;
   }
 
@@ -111,11 +108,8 @@ export class UserController {
   }
 
   @Get('/hello')
-  sayHello(
-    @Query('first_name') firstName?: string,
-    @Query('last_name') lastName?: string,
-  ): string {
-    return this.service.sayHello(firstName + ' ' + lastName);
+  sayHello(@Query('name') name?: string): string {
+    return this.service.sayHello(name);
     // return `Hello ${firstName + ' ' + lastName}`;
   }
 
