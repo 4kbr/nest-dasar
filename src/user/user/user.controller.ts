@@ -1,8 +1,10 @@
+import { User } from '.prisma/client';
 import {
   Controller,
   Get,
   Header,
   HttpCode,
+  HttpException,
   HttpRedirectResponse,
   Inject,
   Post,
@@ -14,10 +16,9 @@ import {
 import { Request, Response } from 'express';
 import { Connection } from '../connection/connection';
 import { MailService } from '../mail/mail.service';
+import { MemberService } from '../member/member.service';
 import { UserRepository } from '../user-repository/user-repository';
 import { UserService } from './user.service';
-import { MemberService } from '../member/member.service';
-import { User } from '.prisma/client';
 
 @Controller('/api/users')
 export class UserController {
@@ -35,6 +36,24 @@ export class UserController {
     @Query('first_name') firstName: string,
     @Query('last_name') lastName: string,
   ): Promise<User> {
+    if (!firstName) {
+      throw new HttpException(
+        {
+          code: 400,
+          errors: `first_name is required`,
+        },
+        400,
+      );
+    }
+    if (!lastName) {
+      throw new HttpException(
+        {
+          code: 400,
+          errors: `last_name is required`,
+        },
+        400,
+      );
+    }
     return this.userRepository.save(firstName, lastName);
   }
 
@@ -108,6 +127,7 @@ export class UserController {
   }
 
   @Get('/hello')
+  //@UseFilters(ValidationFilter) // akan pakai global filter
   sayHello(@Query('name') name?: string): string {
     return this.service.sayHello(name);
     // return `Hello ${firstName + ' ' + lastName}`;
